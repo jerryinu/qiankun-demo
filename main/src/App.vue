@@ -1,32 +1,49 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+  <div id="main">
+    这是主应用文字
+    <br>
+    <button @click="changeView('/one')">子应用one</button>
+    &nbsp;
+    <button @click="changeView('/two')">子应用two</button>
+    <br>
+    <!--增加修改state的按钮-->
+    <button @click="changeState('1')">修改state = 1</button>
+    &nbsp;
+    <button @click="changeState('2')">修改state = 2</button>
+    <hr>
+    <div id="micro-view"></div>
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+  import HelloWorld from "./components/HelloWorld.vue";
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+  export default {
+    name: "App",
+    components: {
+      HelloWorld
+    },
+    methods: {
+      changeView(who) {
+        window.history.pushState(null, who, who);
+      },
+      changeState(value) {
+        // ------ 修改state
+        this.$actions.setGlobalState({
+          mt: value
+        });
+      }
     }
+  };
+</script>
+
+<style>
+  #main {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
   }
-}
 </style>
